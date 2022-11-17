@@ -30,7 +30,7 @@
         }
     }
     const colors = ["blue", "cyan", "green", "lightgreen", "blueviolet", "red", "pink", "firebrick", "magenta", "maroon", "sienna", "indigo", "olive", "turquoise", "orange", "dodgerblue", "darkgreen"]
-
+    const squares = []
 
     function initializeCanvas() {
         var canvas = document.getElementById("myCanvas");
@@ -62,16 +62,24 @@
 
 
     function startGame(ctx, canvas, components_total, square_size) {
-        var squares = []
         for(let i = 0; i < components_total; i++) {
             var square = new Square(colors[Math.floor(Math.random()*colors.length)], square_size,10,10, Math.floor(Math.random()*(canvas.width - square_size + 1)), Math.floor(Math.random()*(canvas.height - square_size + 1)))
             squares.push(square)
         }
-        this.interval = setInterval(updateSquares, 20);
+        this.interval = setInterval(updateSquares, 20, ctx);
     }
 
-    function updateSquares() {
-        console.log(Math.random())
+    function updateSquares(ctx) {
+        for(let i = 0; i < squares.length; i++) {
+            let square = squares[i]
+            ctx.beginPath();
+            ctx.fillStyle = square.color
+            ctx.fillRect(square.pos_x, square.pos_y, square.size, square.size);
+            ctx.stroke();
+
+        }
+        console.log(22)
+
 
     }
 </script>
