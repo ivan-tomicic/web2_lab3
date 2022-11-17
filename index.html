@@ -9,7 +9,7 @@
 </head>
 <body onload="initializeCanvas()">
 
-<canvas id="myCanvas" style="border:4px solid rgba(0,3,10,0.46);">
+<canvas id="myCanvas" style="border:4px solid rgba(0,3,10,0.46); color:">
     Your browser does not support the HTML5 canvas tag.
 </canvas>
 
@@ -19,6 +19,17 @@
 
 
 <script>
+    class Square {
+        constructor(color, size, speed_x, speed_y, pos_x, pos_y) {
+            this.color = color
+            this.size = size;
+            this.speed_x = speed_x
+            this.speed_y = speed_y
+            this.pos_x = pos_x
+            this.pos_y = pos_y
+        }
+    }
+    const colors = ["blue", "cyan", "green", "lightgreen", "blueviolet", "red", "pink", "firebrick", "magenta", "maroon", "sienna", "indigo", "olive", "turquoise", "orange", "dodgerblue", "darkgreen"]
 
 
     function initializeCanvas() {
@@ -28,12 +39,13 @@
         canvas.width = 800;
         canvas.height = 800;
 
-        rectangle_size = 66
+        square_size = 66
 
         components_total = Math.floor(Math.random() * 6) + 8;
 
         fillText(ctx, canvas, components_total)
-        loadRectangles(ctx, canvas, components_total, rectangle_size)
+        startGame(ctx, canvas, components_total, square_size)
+
     }
 
     function fillText(ctx, canvas, components_total) {
@@ -49,18 +61,17 @@
     }
 
 
-    function loadRectangles(ctx, canvas, components_total, rectangle_size) {
-        const colors = ["blue", "cyan", "green", "lightgreen", "blueviolet", "red", "pink", "olive", "turquoise", "orange", "dodgerblue", "darkgreen"]
-
+    function startGame(ctx, canvas, components_total, square_size) {
+        var squares = []
         for(let i = 0; i < components_total; i++) {
-            ctx.beginPath();
-            ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)]
-            ctx.fillRect(Math.random()*(canvas.width - rectangle_size + 1), Math.random()*(canvas.height - rectangle_size + 1), rectangle_size, rectangle_size);
-            ctx.stroke();
-
+            var square = new Square(colors[Math.floor(Math.random()*colors.length)], square_size,10,10, Math.floor(Math.random()*(canvas.width - square_size + 1)), Math.floor(Math.random()*(canvas.height - square_size + 1)))
+            squares.push(square)
         }
+        this.interval = setInterval(updateSquares, 20);
+    }
 
-
+    function updateSquares() {
+        console.log(Math.random())
 
     }
 </script>
