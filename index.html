@@ -20,12 +20,13 @@
 
 <script>
     const colors = ["blue", "cyan", "green", "lightgreen", "blueviolet", "red", "pink", "firebrick", "magenta", "maroon", "sienna", "indigo", "olive", "turquoise", "orange", "dodgerblue", "darkgreen"]
-    const speed_min = 2
-    const speed_max = 4
+    const speed_min = 0
+    const speed_max = 0
     const canvas_height = 800
     const canvas_width = 800
     const square_size = 66
-    const components_total = Math.floor(Math.random() * 6) + 8;
+    let clicked_components = 0
+    const components_total = Math.floor(Math.random() * 6) + 40;
 
 
     class Square {
@@ -59,7 +60,7 @@
         ctx.fillStyle = "black";
         ctx.font = "20px Georgia";
 
-        let txt = "Clicked components: 0"
+        let txt = "Clicked components: " + clicked_components
         ctx.fillText(txt, canvas_width - 10 - ctx.measureText(txt).width, 30);
 
         txt = "Total components: " + components_total
@@ -69,15 +70,30 @@
 
     function startGame(ctx, canvas, components_total, square_size) {
         for(let i = 0; i < components_total; i++) {
-            var square = new Square(
+            const square = new Square(
                 colors[Math.floor(Math.random()*colors.length)],
                 square_size,
                 (Math.floor(Math.random() * speed_max) + speed_max) * (Math.random() < 0.5 ? -1 : 1),
                 (Math.floor(Math.random() * speed_max) + speed_max) * (Math.random() < 0.5 ? -1 : 1),
                 Math.floor(Math.random()*(canvas.width - square_size + 1)),
-                Math.floor(Math.random()*(canvas.height - square_size + 1)))
+                Math.floor(Math.random()*(canvas.height - square_size + 1))
+            )
             squares.push(square)
         }
+        document.getElementById('myCanvas').onclick = function(event) {
+            var x = event.offsetX;
+            var y = event.offsetY;
+            for(let i = squares.length - 1; i >= 0; i--) {
+                const square = squares[i]
+                if (x >= square.pos_x && x <= square.pos_x + square.size &&
+                    y >= square.pos_y && y <= square.pos_y + square.size) {
+                    squares.splice(squares.indexOf(square), 1)
+                    clicked_components++
+                    break
+                }
+            }
+        };
+
         this.interval = setInterval(update, 20, ctx, canvas);
     }
 
