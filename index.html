@@ -66,21 +66,46 @@
             var square = new Square(colors[Math.floor(Math.random()*colors.length)], square_size,10,10, Math.floor(Math.random()*(canvas.width - square_size + 1)), Math.floor(Math.random()*(canvas.height - square_size + 1)))
             squares.push(square)
         }
-        this.interval = setInterval(updateSquares, 20, ctx);
+        this.interval = setInterval(update, 20, ctx, canvas);
     }
 
-    function updateSquares(ctx) {
+    function update(ctx, canvas) {
+        updateSquares(ctx, canvas)
+        drawSquares(ctx)
+    }
+
+    function updateSquares(ctx, canvas) {
+        for(let i = 0; i < squares.length; i++) {
+            const square = squares[i]
+
+            if (square.pos_x - square.size / 2 < 0)
+                square.speed_x = 2;
+            else if ((square.pos_x + square.size / 2) >= canvas.width)
+                square.speed_x = -2;
+            if (square.pos_y - square.size / 2 < 0)
+                square.speed_y = -2;
+            else if ((square.pos_y + square.size / 2) >= canvas.height)
+                square.speed_y = 2;
+            square.pos_x += square.speed_x;
+            square.pos_y -= square.speed_y;
+        }
+
+    }
+
+    function drawSquares(ctx) {
+        ctx.save()
+
+        ctx.clearRect(0, 0, 800, 800);
+
+
         for(let i = 0; i < squares.length; i++) {
             let square = squares[i]
             ctx.beginPath();
             ctx.fillStyle = square.color
             ctx.fillRect(square.pos_x, square.pos_y, square.size, square.size);
             ctx.stroke();
-
         }
-        console.log(22)
-
-
+        ctx.restore()
     }
 </script>
 </body>
