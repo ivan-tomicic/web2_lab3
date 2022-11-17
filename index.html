@@ -1,12 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <title>Web2 lab3</title>
 
-</head>
-<body>
 
-    <h1> text...</h1>
+
+
+</head>
+<body onload="initializeCanvas()">
+
+<canvas id="myCanvas" style="border:4px solid rgba(0,3,10,0.46);">
+    Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+
+
+
+
+
+<script>
+
+
+    function initializeCanvas() {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        canvas.width = 800;
+        canvas.height = 800;
+
+        rectangle_size = 66
+
+        components_total = Math.floor(Math.random() * 6) + 8;
+
+        fillText(ctx, canvas, components_total)
+        loadRectangles(ctx, canvas, components_total, rectangle_size)
+    }
+
+    function fillText(ctx, canvas, components_total) {
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "black";
+        ctx.font = "20px Georgia";
+
+        let txt = "Clicked components: 0"
+        ctx.fillText(txt, canvas.width - 10 - ctx.measureText(txt).width, 30);
+
+        txt = "Total components: " + components_total
+        ctx.fillText(txt, canvas.width - 10 - ctx.measureText(txt).width, 60);
+    }
+
+
+    function loadRectangles(ctx, canvas, components_total, rectangle_size) {
+        const colors = ["blue", "cyan", "green", "lightgreen", "blueviolet", "red", "pink", "olive", "turquoise", "orange", "dodgerblue", "darkgreen"]
+
+        for(let i = 0; i < components_total; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)]
+            ctx.fillRect(Math.random()*(canvas.width - rectangle_size + 1), Math.random()*(canvas.height - rectangle_size + 1), rectangle_size, rectangle_size);
+            ctx.stroke();
+
+        }
+
+
+
+    }
+</script>
 </body>
 </html>
