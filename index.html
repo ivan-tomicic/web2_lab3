@@ -73,8 +73,8 @@
                 selectColor(Math.floor(Math.random() * 100), 100),
                 //'#'+(Math.random()*0xFFFFFF<<0).toString(16),
                 square_size,
-                Math.floor(Math.random() * speed_max) * (Math.random() < 0.5 ? -1 : 1),
-                Math.floor(Math.random() * speed_max) * (Math.random() < 0.5 ? -1 : 1),
+                Math.floor(Math.random() * speed_max + speed_min) * (Math.random() < 0.5 ? -1 : 1),
+                Math.floor(Math.random() * speed_max + speed_min) * (Math.random() < 0.5 ? -1 : 1),
                 Math.floor(Math.random()*(canvas.width - square_size + 1)),
                 Math.floor(Math.random()*(canvas.height - square_size + 1))
             )
